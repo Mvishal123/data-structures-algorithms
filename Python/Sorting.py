@@ -40,16 +40,36 @@ def insertionSort(ls):
 
 
 def cyclicSort(ls):
-    for i in range(len(ls)):
-        swapIndex = ls[i] - 1
-        if not swapIndex == i:
-            swap(ls, i, swapIndex)
+    for i in range(len(ls) - 1):
+        while ls[i] != i+1:
+            swap(ls, i, ls[i] - 1)
     return ls
 
 
-_list = [4, 3, 2, 1, 5]
+_list = [5, 4, 1, 3, 2, 6, 7]
 
 # print(bubbleSort(_list))
 # print(selectionSort(_list))
 # print(insertionSort(_list))
-print(cyclicSort(_list))
+# print(cyclicSort(_list))
+
+
+
+
+def findMissing(nums):
+    ans = len(ls)
+    for i in range(len(nums)):
+        while nums[i] != i:
+            if nums[i] >= len(nums):
+                ans = i
+                break
+            else:
+                temp = nums[nums[i]]
+                nums[nums[i]] = nums[i]
+                nums[i] = temp
+    return ans
+
+
+ls = [0, 1]
+print(findMissing(ls))
+

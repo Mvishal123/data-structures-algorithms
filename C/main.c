@@ -4,9 +4,10 @@
 
 struct user{
     char name[20];
-    struct user *next;
     struct user *friends;
     struct post *posts;
+    struct user *next;
+
 };
 
 struct post{
@@ -25,7 +26,7 @@ void add_user(char name[20]){
     temp->posts = NULL;
     if(head == NULL){
         head = temp;
-    }
+    }   
     else{
         struct user *ptr = head;
         while(ptr->next != NULL){
@@ -34,6 +35,7 @@ void add_user(char name[20]){
         ptr->next = temp;
     }
 }
+
 //O(n)
 void add_friend(char name1[20], char name2[20]){
     struct user *ptr1 = head;
@@ -75,7 +77,8 @@ void add_friend(char name1[20], char name2[20]){
         ptr->next = temp1;
     }
 }
-//O(n)
+
+//O(n + m)
 void add_post(char name[20], char post[100]){
     struct user *ptr = head;
     while(strcmp(ptr->name, name) != 0){
@@ -95,6 +98,7 @@ void add_post(char name[20], char post[100]){
         ptr1->next = temp;
     }
 }
+
 //O(n + m)
 void show_posts(char name[20]){
     struct user *ptr = head;
@@ -107,6 +111,7 @@ void show_posts(char name[20]){
         ptr1 = ptr1->next;
     }
 }
+
 //O(n + k)
 void show_friends(char name[20]){
     struct user *ptr = head;
@@ -119,6 +124,7 @@ void show_friends(char name[20]){
         ptr1 = ptr1->next;
     }
 }
+
 //O(n + k + m)
 void show_mutuals(char name1[20], char name2[20]){
     struct user *ptr1 = head;
@@ -141,43 +147,44 @@ void show_mutuals(char name1[20], char name2[20]){
         ptr = ptr->next;
     }
 }
+
 //O(n)
-void remove_friend(char name1[20], char name2[20]){
-    struct user *ptr1 = head;
-    struct user *ptr2 = head;
-    while(strcmp(ptr1->name, name1) != 0){
-        ptr1 = ptr1->next;
-    }
-    while(strcmp(ptr2->name, name2) != 0){
-        ptr2 = ptr2->next;
-    }
-    struct user *ptr = ptr1->friends;
-    if(strcmp(ptr->name, name2) == 0){
-        ptr1->friends = ptr->next;
-        free(ptr);
-    }
-    else{
-        while(strcmp(ptr->next->name, name2) != 0){
-            ptr = ptr->next;
+    void remove_friend(char name1[20], char name2[20]){
+        struct user *ptr1 = head;
+        struct user *ptr2 = head;
+        while(strcmp(ptr1->name, name1) != 0){
+            ptr1 = ptr1->next;
         }
-        struct user *temp = ptr->next;
-        ptr->next = temp->next;
-        free(temp);
-    }
-    ptr = ptr2->friends;
-    if(strcmp(ptr->name, name1) == 0){
-        ptr2->friends = ptr->next;
-        free(ptr);
-    }
-    else{
-        while(strcmp(ptr->next->name, name1) != 0){
-            ptr = ptr->next;
+        while(strcmp(ptr2->name, name2) != 0){
+            ptr2 = ptr2->next;
         }
-        struct user *temp = ptr->next;
-        ptr->next = temp->next;
-        free(temp);
+        struct user *ptr = ptr1->friends;
+        if(strcmp(ptr->name, name2) == 0){
+            ptr1->friends = ptr->next;
+            free(ptr);
+        }
+        else{
+            while(strcmp(ptr->next->name, name2) != 0){
+                ptr = ptr->next;
+            }
+            struct user *temp = ptr->next;
+            ptr->next = temp->next;
+            free(temp);
+        }
+        ptr = ptr2->friends;
+        if(strcmp(ptr->name, name1) == 0){
+            ptr2->friends = ptr->next;
+            free(ptr);
+        }
+        else{
+            while(strcmp(ptr->next->name, name1) != 0){
+                ptr = ptr->next;
+            }
+            struct user *temp = ptr->next;
+            ptr->next = temp->next;
+            free(temp);
+        }
     }
-}
 
 void main(){
     int choice;
